@@ -1,19 +1,28 @@
 #include <stdio.h>
 
-void drawBoard() {
-  printf("1 | 2 | 3\n");
-  printf("4 | 5 | 6\n");
-  printf("7 | 8 | 9\n");
+void drawBoard(char board[10]) {
+  int i;
+  for (i = 1; i < 10; i++) {
+    if (i == 1) {
+      printf("-------------\n");
+    }
+    if (i % 3 == 0) {
+      printf("| %c |\n", board[i - 1]);
+      printf("-------------\n");
+    } else {
+      printf("| %c ", board[i - 1]);
+    }
+  }
 }
 
-int getSelection() {
+int getSelection(char currentPlayer) {
   int selection;
   int isValidInput = 0;
 
   do {
-    printf("Enter your selection (1-9): ");
+    printf("(%c) Enter your selection (1-9): ", currentPlayer);
     scanf("%d", &selection);
-    if (selection < 9 && selection > 1) {
+    if (selection < 10 && selection > 0) {
       isValidInput = 1;
     } else {
       printf("Invalid input\n");
@@ -26,10 +35,20 @@ int getSelection() {
 int main() {
   printf("Welcome to TicTacToe!\n");
   printf("Moves are made by entering the number that matches like to take.\n");
-  drawBoard();
 
-  int selection = getSelection();
+  char board[10] = "123456789\0";
+  char currentPlayer = 'X';
+  drawBoard(board);
 
-  printf("You selected: %d\n", selection);
+  while (1 == 1) {
+    int selection = getSelection(currentPlayer);
+    board[selection - 1] = currentPlayer;
+    drawBoard(board);
+    if (currentPlayer == 'X') {
+      currentPlayer = 'O';
+    } else {
+      currentPlayer = 'X';
+    }
+  }
   return 0;
 }
